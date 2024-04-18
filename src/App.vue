@@ -1,47 +1,43 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div id="app">
+    <h1>Product Management</h1>
+    <AddProduct @product-added="addProduct" />
+    <ProductList :products="products" @delete-product="deleteProduct" @edit-product="editProduct" />
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script>
+import AddProduct from './components/AddProduct.vue';
+import ProductList from './components/ProductList.vue';
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+export default {
+  components: {
+    AddProduct,
+    ProductList
+  },
+  data() {
+    return {
+      products: [],
+      editingProduct: null
+    };
+  },
+  methods: {
+    addProduct(newProduct) {
+      this.products.push(newProduct);
+    },
+    deleteProduct(productId) {
+      this.products = this.products.filter(product => product.id !== productId);
+    },
+    editProduct(product) {
+      this.editingProduct = product;
+    },
+    updateProduct(updatedProduct) {
+      const index = this.products.findIndex(product => product.id === updatedProduct.id);
+      if (index !== -1) {
+        this.products.splice(index, 1, updatedProduct);
+      }
+      this.editingProduct = null;
+    }
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+};
+</script>
