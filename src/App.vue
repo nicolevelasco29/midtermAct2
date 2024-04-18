@@ -1,8 +1,14 @@
 <template>
-  <div id="app">
-    <h1>Product Management</h1>
-    <AddProduct @product-added="addProduct" />
-    <ProductList :products="products" @delete-product="deleteProduct" @edit-product="editProduct" />
+  <div id="app" class="container">
+    <h1 class="title">Product Management</h1>
+    <div class="columns">
+      <div class="column">
+        <AddProduct @product-added="addProduct" />
+      </div>
+      <div class="column">
+        <ProductList :products="products" @delete-product="deleteProduct" @edit-product="editProduct" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,3 +47,21 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
